@@ -17,7 +17,7 @@ def check_path(grid: list[list[NetworkNode]], max_diff: int, start_coord) -> boo
     # Check if nodes share color
     # or have a absolute difference in values less than the max_diff
     def check_if_neighbor(base_node: NetworkNode,
-    potential_neighbor: NetworkNode, max_diff: int) -> bool:
+            potential_neighbor: NetworkNode, max_diff: int) -> bool:
         if base_node.color == potential_neighbor.color \
                 or abs(base_node.value - potential_neighbor.value) <= max_diff:
             return True
@@ -27,7 +27,9 @@ def check_path(grid: list[list[NetworkNode]], max_diff: int, start_coord) -> boo
         if new_coord not in visited_coords \
                 and new_coord[0] in range(len(grid)) \
                 and new_coord[1] in range(len(grid[0])) \
-                and check_if_neighbor(grid[old_coord[0]][old_coord[1]], grid[new_coord[0]][new_coord[1]], max_diff):
+                and check_if_neighbor(grid[old_coord[0]][old_coord[1]],
+                                      grid[new_coord[0]][new_coord[1]],
+                                      max_diff):
             node_queue.append(new_coord)
 
     while len(node_queue) > 0:
@@ -43,14 +45,6 @@ def check_path(grid: list[list[NetworkNode]], max_diff: int, start_coord) -> boo
         for coordinate in potential_neighbor:
             add_node_to_queue(node, coordinate)
 
-        # east_node = (node[0]+1, node[1])
-        # west_node = (node[0]-1, node[1])
-        # north_node = (node[0], node[1]-1)
-        # south_node = (node[0], node[1]+1)
-        # add_node_to_queue(node, east_node)
-        # add_node_to_queue(node, west_node)
-        # add_node_to_queue(node, north_node)
-        # add_node_to_queue(node, south_node)
         if target in visited_coords:
             return True
     return False
