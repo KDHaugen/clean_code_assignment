@@ -4,14 +4,14 @@ from enum import Enum
 class NetworkNode:
     def __init__(self, color: Enum, value: int):
         self.color = color
-        self.value = value    
+        self.value = value
 
 
-def check_path(grid: list[list[NetworkNode]], max_diff: int) -> bool:
+def check_path(grid: list[list[NetworkNode]], max_diff: int, start_coord) -> bool:
     # create a set of already visisted nodes,
     # a queue of nodes to visit, and target node of bottom corner
     visited_coords = set()
-    node_queue = [(0, 0)]
+    node_queue = [start_coord]
     target = (len(grid)-1, len(grid[0])-1)
     
     # Check if nodes share color
@@ -36,14 +36,21 @@ def check_path(grid: list[list[NetworkNode]], max_diff: int) -> bool:
             visited_coords.add((node[0], node[1]))
 
             # Check potential neighbors
-        east_node = (node[0]+1, node[1])
-        west_node = (node[0]-1, node[1])
-        north_node = (node[0], node[1]-1)
-        south_node = (node[0], node[1]+1)
-        add_node_to_queue(node, east_node)
-        add_node_to_queue(node, west_node)
-        add_node_to_queue(node, north_node)
-        add_node_to_queue(node, south_node)
+        potential_neighbor = [(node[0]+1, node[1]),
+                                (node[0]-1, node[1]),
+                                (node[0], node[1]-1),
+                                (node[0], node[1]+1)]
+        for coordinate in potential_neighbor:
+            add_node_to_queue(node, coordinate)
+
+        # east_node = (node[0]+1, node[1])
+        # west_node = (node[0]-1, node[1])
+        # north_node = (node[0], node[1]-1)
+        # south_node = (node[0], node[1]+1)
+        # add_node_to_queue(node, east_node)
+        # add_node_to_queue(node, west_node)
+        # add_node_to_queue(node, north_node)
+        # add_node_to_queue(node, south_node)
         if target in visited_coords:
             return True
     return False
@@ -58,10 +65,14 @@ node5 = NetworkNode("red", 9)
 node6 = NetworkNode("yellow", 2)
 
 node7 = NetworkNode("blue", 10)
-node8 = NetworkNode("blue", 10)
+node8 = NetworkNode("yellow", 10)
 node9 = NetworkNode("blue", 2)
 
 row1 = [node1, node2, node3]
 row2 = [node4, node5, node6]
 row3 = [node7, node8, node9]
 sample_grid = [row1, row2, row3]
+
+start_coord = (0, 0)
+
+print(check_path(sample_grid, 2, start_coord))
