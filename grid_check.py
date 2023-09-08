@@ -50,6 +50,9 @@ def check_path(grid: list[list[NetworkNode]], max_diff: int, start_coord) -> boo
     return False
 
 
+# Test Case
+
+
 node1 = NetworkNode("blue", 1)
 node2 = NetworkNode("yellow", 10)
 node3 = NetworkNode("yellow", 11)
